@@ -16,6 +16,7 @@ from PyQt5.QtCore import Qt
 from ui.styles import StyleHelper, TitleHelper
 from ui.components.modern_switch import ModernSwitch
 from ui.components.card_group_box import CardGroupBox
+from ui.components.custom_grips import CustomGrip
 from utils import get_app_version
 
 
@@ -39,16 +40,6 @@ class UIManager:
         self.main_window.custom_titlebar = CustomTitleBar(self.main_window)
         main_layout.addWidget(self.main_window.custom_titlebar)
 
-        # 添加窗口边缘调整大小功能
-        from ui.components.resizable_window import ResizableWindow
-
-        self.main_window.resizable_window = ResizableWindow(
-            window=self.main_window,
-            edge_width=8,
-            min_width=700,  # 与主窗口的最小宽度保持一致
-            min_height=800,  # 与主窗口的最小高度保持一致
-        )
-
         # 创建内容区域
         content_widget = QWidget()
         content_layout = QVBoxLayout(content_widget)
@@ -60,6 +51,9 @@ class UIManager:
 
         self.main_window.tabs = NavigationTabWidget()
 
+        # 添加窗口边缘拖拽调整大小功能
+        self._setup_window_grips()
+
         # 设置Logo - 使用favicon.ico
         import os
 
@@ -70,7 +64,56 @@ class UIManager:
 
         content_layout.addWidget(self.main_window.tabs)
 
+        # 添加窗口边缘拖拽调整大小功能
+        self._setup_window_grips()
+
         return content_layout
+
+    def _setup_window_grips(self):
+        """设置窗口边缘拖拽调整大小功能"""
+        # 创建四个边缘的拖拽控件，禁用颜色显示（透明）
+        self.main_window.left_grip = CustomGrip(self.main_window, Qt.LeftEdge, disable_color=True)
+        self.main_window.right_grip = CustomGrip(self.main_window, Qt.RightEdge, disable_color=True)
+        self.main_window.top_grip = CustomGrip(self.main_window, Qt.TopEdge, disable_color=True)
+        self.main_window.bottom_grip = CustomGrip(self.main_window, Qt.BottomEdge, disable_color=True)
+
+        # 保存原始的resizeEvent方法（从QWidget类获取）
+        from PyQt5.QtWidgets import QWidget
+        self.main_window._original_resize_event = QWidget.resizeEvent
+
+        # 重写窗口的resizeEvent方法
+        self.main_window.resizeEvent = self._on_window_resize
+
+        # 初始化拖拽区域位置
+        self._update_grips_geometry()
+
+    def _update_grips_geometry(self):
+        """更新拖拽区域的几何位置"""
+        if hasattr(self.main_window, 'left_grip'):
+            # 更新左边缘拖拽区域（避开标题栏区域）
+            self.main_window.left_grip.setGeometry(0, 35, 10, self.main_window.height() - 35)
+
+            # 更新右边缘拖拽区域（避开标题栏区域）
+            self.main_window.right_grip.setGeometry(
+                self.main_window.width() - 10, 35, 10, self.main_window.height() - 35
+            )
+
+            # 更新顶部边缘拖拽区域（避开标题栏）
+            self.main_window.top_grip.setGeometry(0, 0, self.main_window.width(), 10)
+
+            # 更新底部边缘拖拽区域
+            self.main_window.bottom_grip.setGeometry(
+                0, self.main_window.height() - 10, self.main_window.width(), 10
+            )
+
+    def _on_window_resize(self, event):
+        """窗口大小变化时调整拖拽区域位置"""
+        # 更新拖拽区域几何位置
+        self._update_grips_geometry()
+
+        # 调用原始的resizeEvent方法
+        if hasattr(self.main_window, '_original_resize_event'):
+            self.main_window._original_resize_event(self.main_window, event)
 
     def create_all_tabs(self):
         """创建所有选项卡"""
