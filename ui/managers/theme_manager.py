@@ -3,7 +3,7 @@
 
 """窗口主题管理器"""
 
-from PyQt6.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot
 from ui.styles import StyleHelper, theme_manager
 from utils import logger
 

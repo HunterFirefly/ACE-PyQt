@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ace-pyqt"
 version = "0.1.0"
-description = "使用 PyQt6 构建的桌面应用程序基础框架"
+description = "使用 PyQt5 构建的桌面应用程序基础框架"
 readme = "README.md"
 license = { text = "GPL-3.0" }
 authors = [{ name = "Cassianvale" }]
 requires-python = ">=3.10"
 dependencies = [
-    "PyQt6>=6.9.0",
+    "PyQt5>=5.15.0",
     "loguru>=0.7.0",
     "requests>=2.32.0",
     "PyYAML>=6.0.0",

@@ -3,7 +3,7 @@
 
 """设置管理器"""
 
-from PyQt6.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox
 from utils import logger, enable_auto_start, disable_auto_start
 
 
@@ -45,8 +45,6 @@ class SettingsManager:
                         self.main_window.close_behavior_combo.setCurrentIndex(i)
                         break
 
-            logger.debug("界面设置加载完成")
-
         except Exception as e:
             logger.error(f"加载界面设置失败: {str(e)}")
 
@@ -84,16 +82,13 @@ class SettingsManager:
         else:
             if hasattr(self.main_window, "notify_checkbox"):
                 self.config_manager.show_notifications = self.main_window.notify_checkbox.isChecked()
-                # 同步更新托盘菜单选项
+
                 if hasattr(self.main_window, "tray_manager") and self.main_window.tray_manager.notify_action:
                     self.main_window.tray_manager.notify_action.blockSignals(True)
                     self.main_window.tray_manager.notify_action.setChecked(self.config_manager.show_notifications)
                     self.main_window.tray_manager.notify_action.blockSignals(False)
 
-        # 保存配置
-        if self.config_manager.save_config():
-            logger.debug(f"通知状态已更改并保存: {'开启' if self.config_manager.show_notifications else '关闭'}")
-        else:
+        if not self.config_manager.save_config():
             logger.warning(f"通知状态已更改但保存失败: {'开启' if self.config_manager.show_notifications else '关闭'}")
 
     def toggle_auto_start(self):
@@ -130,9 +125,7 @@ class SettingsManager:
             disable_auto_start(self.main_window.app_name)
 
         # 保存配置
-        if self.config_manager.save_config():
-            logger.debug(f"开机自启状态已更改并保存: {'开启' if self.config_manager.auto_start else '关闭'}")
-        else:
+        if not self.config_manager.save_config():
             logger.warning(f"开机自启状态已更改但保存失败: {'开启' if self.config_manager.auto_start else '关闭'}")
 
     def toggle_debug_mode(self):
@@ -145,9 +138,7 @@ class SettingsManager:
         self.config_manager.debug_mode = new_debug_mode
 
         # 保存配置
-        if self.config_manager.save_config():
-            logger.debug(f"调试模式已更改并保存: {'开启' if new_debug_mode else '关闭'}")
-        else:
+        if not self.config_manager.save_config():
             logger.warning(f"调试模式已更改但保存失败: {'开启' if new_debug_mode else '关闭'}")
 
         # 重新初始化日志系统
@@ -170,9 +161,7 @@ class SettingsManager:
             self.config_manager.close_to_tray = close_to_tray
 
             # 保存配置
-            if self.config_manager.save_config():
-                logger.debug(f"关闭行为设置已更改并保存: {'最小化到后台' if close_to_tray else '直接退出'}")
-            else:
+            if not self.config_manager.save_config():
                 logger.warning(f"关闭行为设置已更改但保存失败: {'最小化到后台' if close_to_tray else '直接退出'}")
 
     def toggle_check_update_on_start(self):
@@ -188,9 +177,7 @@ class SettingsManager:
             self.config_manager.check_update_on_start = check_update_on_start
 
             # 保存配置
-            if self.config_manager.save_config():
-                logger.debug(f"启动时检查更新设置已保存: {check_update_on_start}")
-            else:
+            if not self.config_manager.save_config():
                 logger.warning("启动时检查更新设置保存失败")
 
         except Exception as e:

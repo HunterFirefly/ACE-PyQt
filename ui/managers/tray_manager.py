@@ -4,9 +4,9 @@
 """系统托盘管理器"""
 
 import os
-from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QApplication
-from PyQt6.QtGui import QIcon, QAction
-from PyQt6.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QSystemTrayIcon, QMenu, QApplication,QAction
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import pyqtSlot
 from utils import logger, send_notification
 
 

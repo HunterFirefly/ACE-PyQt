@@ -6,8 +6,8 @@
 """
 
 from enum import Enum
-from PyQt6.QtWidgets import QWidget
-from PyQt6.QtCore import Qt, QPoint, QRect, QTimer
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import Qt, QPoint, QRect, QTimer
 
 from utils import logger
 
@@ -81,14 +81,14 @@ class ResizableWindow:
             return ResizeDirection.NONE
 
     def _mouse_press_event(self, event):
-        if event.button() == Qt.MouseButton.LeftButton:
-            pos = event.position().toPoint()
+        if event.button() == Qt.LeftButton:
+            pos = event.pos()
             direction = self.get_resize_direction(pos)
 
             if direction != ResizeDirection.NONE:
                 self.is_resizing = True
                 self.resize_direction = direction
-                self.resize_start_pos = event.globalPosition().toPoint()
+                self.resize_start_pos = event.globalPos()
                 self.resize_start_geometry = self.window.geometry()
                 event.accept()
                 return
@@ -97,14 +97,14 @@ class ResizableWindow:
 
     def _mouse_move_event(self, event):
         if self.is_resizing:
-            self._perform_resize(event.globalPosition().toPoint())
+            self._perform_resize(event.globalPos())
             event.accept()
             return
         if hasattr(self.window, "_original_mouseMoveEvent"):
             self.window._original_mouseMoveEvent(event)
 
     def _mouse_release_event(self, event):
-        if self.is_resizing and event.button() == Qt.MouseButton.LeftButton:
+        if self.is_resizing and event.button() == Qt.LeftButton:
             self.is_resizing = False
             self.resize_direction = ResizeDirection.NONE
 

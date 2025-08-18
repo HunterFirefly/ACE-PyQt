@@ -1,26 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""现代化卡片样式的QGroupBox组件"""
+"""QGroupBox组件"""
 
-from PyQt6.QtWidgets import QGroupBox, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QGraphicsDropShadowEffect
-from PyQt6.QtCore import Qt, pyqtSignal, QPropertyAnimation, QEasingCurve, pyqtProperty, QRectF
-from PyQt6.QtGui import QPainter, QPainterPath, QColor, QBrush, QPen
+from PyQt5.QtWidgets import QGroupBox, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QGraphicsDropShadowEffect
+from PyQt5.QtCore import Qt, pyqtSignal, QPropertyAnimation, QEasingCurve, pyqtProperty, QRectF
+from PyQt5.QtGui import QPainter, QPainterPath, QColor, QBrush, QPen
 from ui.styles import theme_manager, AntColors, AntColorsDark
 from utils import logger
 
 
 class CardGroupBox(QGroupBox):
-    """现代化卡片样式的QGroupBox组件
-
-    特性：
-    - 圆角边框设计
-    - 悬停状态视觉反馈
-    - 自动适配深色/浅色主题
-    - 支持自定义背景色和边框色
-    - 响应式布局
-    - 专注于卡片容器功能，标题由外部QLabel管理
-    """
 
     # 信号
     clicked = pyqtSignal()
@@ -186,7 +176,7 @@ class CardGroupBox(QGroupBox):
 
     def mousePressEvent(self, event):
         """鼠标点击事件"""
-        if event.button() == Qt.MouseButton.LeftButton and self._is_clickable:
+        if event.button() == Qt.LeftButton and self._is_clickable:
             self.clicked.emit()
         super().mousePressEvent(event)
 

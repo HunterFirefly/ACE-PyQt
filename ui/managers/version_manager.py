@@ -5,8 +5,8 @@
 
 import webbrowser
 import os
-from PyQt6.QtCore import pyqtSlot, Qt
-from PyQt6.QtWidgets import QSystemTrayIcon
+from PyQt5.QtCore import pyqtSlot, Qt
+from PyQt5.QtWidgets import QSystemTrayIcon
 from ui.styles import StyleHelper
 from utils import logger, get_version_checker, create_update_message
 

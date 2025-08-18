@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from PyQt6.QtWidgets import QAbstractButton
-from PyQt6.QtCore import Qt, QSize, QPropertyAnimation, QEasingCurve, pyqtProperty, pyqtSignal
-from PyQt6.QtGui import QPainter, QColor, QBrush
+from PyQt5.QtWidgets import QAbstractButton
+from PyQt5.QtCore import Qt, QSize, QPropertyAnimation, QEasingCurve, pyqtProperty, pyqtSignal
+from PyQt5.QtGui import QPainter, QColor, QBrush
 
 """
 信号触发流程
@@ -33,7 +33,7 @@ class ModernSwitch(QAbstractButton):
 
         # 初始化动画
         self._animation = QPropertyAnimation(self, b"circle_position")
-        self._animation.setEasingCurve(QEasingCurve.Type.OutBounce)  # 弹性缓动曲线
+        self._animation.setEasingCurve(QEasingCurve.OutBounce)  # 弹性缓动曲线
         self._animation.setDuration(500)  # 动画持续时间
 
         self.toggled.connect(self._on_toggled)
@@ -70,7 +70,7 @@ class ModernSwitch(QAbstractButton):
         """
         painter = QPainter(self)
         # 启用反锯齿
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.setRenderHint(QPainter.Antialiasing)
 
         # 根据控件状态设置背景颜色
         if self.isChecked():
@@ -78,7 +78,7 @@ class ModernSwitch(QAbstractButton):
         else:
             painter.setBrush(QBrush(self._bg_color))
 
-        painter.setPen(Qt.PenStyle.NoPen)
+        painter.setPen(Qt.NoPen)
         painter.drawRoundedRect(0, 0, self.width(), self.height(), self.height() / 2, self.height() / 2)
 
         circle_diameter = self.height() - 4
@@ -106,7 +106,7 @@ class ModernSwitch(QAbstractButton):
         # 发出 stateChanged 信号以兼容 QCheckBox
         # QCheckBox 的 stateChanged 信号传递的是 Qt.CheckState 值
         if old_state != checked:
-            state = Qt.CheckState.Checked.value if checked else Qt.CheckState.Unchecked.value
+            state = Qt.Checked if checked else Qt.Unchecked
             self.stateChanged.emit(state)
 
     def setFixedSize(self, w, h):
@@ -121,21 +121,21 @@ class ModernSwitch(QAbstractButton):
 
     def mousePressEvent(self, event):
         """重写鼠标按下事件"""
-        if event.button() == Qt.MouseButton.LeftButton and self.isEnabled():
+        if event.button() == Qt.LeftButton and self.isEnabled():
             super().mousePressEvent(event)
         else:
             super().mousePressEvent(event)
 
     def mouseReleaseEvent(self, event):
         """重写鼠标释放事件以确保正确的点击行为"""
-        if event.button() == Qt.MouseButton.LeftButton and self.isEnabled():
+        if event.button() == Qt.LeftButton and self.isEnabled():
             # 检查鼠标是否在控件范围内
-            if self.rect().contains(event.position().toPoint()):
+            if self.rect().contains(event.pos()):
                 old_state = self.isChecked()
                 super().mouseReleaseEvent(event)
-                # 检查状态是否真的改变了
+                # 检查状态
                 if old_state != self.isChecked():
-                    state = Qt.CheckState.Checked.value if self.isChecked() else Qt.CheckState.Unchecked.value
+                    state = Qt.Checked if self.isChecked() else Qt.Unchecked
                     self.stateChanged.emit(state)
             else:
                 super().mouseReleaseEvent(event)
@@ -144,12 +144,12 @@ class ModernSwitch(QAbstractButton):
 
     def keyPressEvent(self, event):
         """重写键盘按下事件以确保发出 stateChanged 信号"""
-        if event.key() in (Qt.Key.Key_Space, Qt.Key.Key_Return, Qt.Key.Key_Enter) and self.isEnabled():
+        if event.key() in (Qt.Key_Space, Qt.Key_Return, Qt.Key_Enter) and self.isEnabled():
             old_state = self.isChecked()
             super().keyPressEvent(event)
-            # 检查状态是否真的改变了
+            # 检查状态
             if old_state != self.isChecked():
-                state = Qt.CheckState.Checked.value if self.isChecked() else Qt.CheckState.Unchecked.value
+                state = Qt.Checked if self.isChecked() else Qt.Unchecked
                 self.stateChanged.emit(state)
         else:
             super().keyPressEvent(event)

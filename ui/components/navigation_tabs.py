@@ -21,7 +21,7 @@ NavigationTabWidget 结构:
 
 """
 
-from PyQt6.QtWidgets import (
+from PyQt5.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QHBoxLayout,
@@ -32,7 +32,7 @@ from PyQt6.QtWidgets import (
     QScrollArea,
     QGraphicsOpacityEffect,
 )
-from PyQt6.QtCore import (
+from PyQt5.QtCore import (
     Qt,
     pyqtSignal,
     QSize,
@@ -42,7 +42,7 @@ from PyQt6.QtCore import (
     pyqtProperty,
     QParallelAnimationGroup,
 )
-from PyQt6.QtGui import QIcon, QPixmap, QPainter, QColor, QFont
+from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor, QFont
 from ui.styles import AntColors, AntColorsDark, theme_manager
 
 
@@ -133,7 +133,7 @@ class NavigationButton(QPushButton):
         if abs(self._indicator_position - value) > 0.01:  # 只有变化足够大时才更新
             self._indicator_position = value
             # 使用QTimer.singleShot来避免在paintEvent中直接调用update()
-            from PyQt6.QtCore import QTimer
+            from PyQt5.QtCore import QTimer
 
             QTimer.singleShot(0, self.update)
 
@@ -148,7 +148,7 @@ class NavigationButton(QPushButton):
         if abs(self._indicator_opacity - new_value) > 0.01:  # 只有变化足够大时才更新
             self._indicator_opacity = new_value
             # 使用QTimer.singleShot来避免在paintEvent中直接调用update()
-            from PyQt6.QtCore import QTimer
+            from PyQt5.QtCore import QTimer
 
             QTimer.singleShot(0, self.update)
 
@@ -263,7 +263,7 @@ class NavigationButton(QPushButton):
                 painter.setPen(Qt.PenStyle.NoPen)
 
                 # 绘制圆角矩形指示器
-                from PyQt6.QtCore import QRectF
+                from PyQt5.QtCore import QRectF
 
                 indicator_rect = QRectF(indicator_x, indicator_y, indicator_width, indicator_height)
                 corner_radius = indicator_width / 2

@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-重构后的PyQt6 GUI界面模块
+重构后的PyQt5 GUI界面模块
 """
 
 import os
 import sys
-from PyQt6.QtWidgets import (
+from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
 )
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QIcon
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 
 from utils import logger
 from ui.styles import StyleApplier

@@ -5,7 +5,7 @@
 Ant Design风格UI样式定义
 """
 
-from PyQt6.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject, pyqtSignal
 from utils.logger import logger
 
 
@@ -1224,7 +1224,7 @@ class TitleHelper:
         Returns:
             QLabel: 配置好样式的标题标签
         """
-        from PyQt6.QtWidgets import QLabel
+        from PyQt5.QtWidgets import QLabel
 
         label = QLabel(text)
 

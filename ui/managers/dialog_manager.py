@@ -4,7 +4,7 @@
 """对话框管理器"""
 
 import webbrowser
-from PyQt6.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox
 from utils import logger
 
 

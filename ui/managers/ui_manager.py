@@ -3,7 +3,7 @@
 
 """UI组件管理器"""
 
-from PyQt6.QtWidgets import (
+from PyQt5.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QPushButton,
@@ -12,7 +12,7 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QFrame,
 )
-from PyQt6.QtCore import Qt
+from PyQt5.QtCore import Qt
 from ui.styles import StyleHelper, TitleHelper
 from ui.components.modern_switch import ModernSwitch
 from ui.components.card_group_box import CardGroupBox

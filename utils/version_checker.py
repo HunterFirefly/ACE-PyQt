@@ -11,7 +11,7 @@ import re
 import threading
 import requests
 from packaging import version
-from PyQt6.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject, pyqtSignal
 from .logger import logger
 
 

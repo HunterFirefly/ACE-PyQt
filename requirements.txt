@@ -23,7 +23,7 @@ winrt-windows-ui-notifications==3.2.1
 nuitka==2.7.10
 ordered-set==4.1.0
 zstandard==0.23.0
-# PyQt6
-pyqt6==6.9.1
-pyqt6-qt6==6.9.1
-pyqt6-sip==13.10.2
+# PyQt
+pyqt5==5.15.11
+pyqt5-qt5==5.15.2
+pyqt5-sip==12.17.0

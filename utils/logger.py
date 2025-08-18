@@ -61,8 +61,7 @@ def setup_logger(log_dir, log_retention_days=7, log_rotation="1 day", debug_mode
             enqueue=True,
             catch=True,
         )
-
-        logger.info(f"日志系统初始化完成 - 级别: {log_level}")
+        
         return logger
 
     except Exception as e:

@@ -5,8 +5,8 @@
 配置管理模块
 """
 
-import os
 import yaml
+from pathlib import Path
 from utils.logger import logger
 from utils.system_utils import check_auto_start, enable_auto_start, disable_auto_start
 from config.app_config import APP_INFO, DEFAULT_CONFIG, SYSTEM_CONFIG
@@ -89,9 +89,18 @@ class ConfigManager:
 
     def _setup_paths(self):
         """设置配置相关路径"""
-        self.config_dir = os.path.join(os.path.expanduser("~"), self.system_config["config_dir_name"])
-        self.log_dir = os.path.join(self.config_dir, self.system_config["log_dir_name"])
-        self.config_file = os.path.join(self.config_dir, self.system_config["config_file_name"])
+        # 获取项目根目录（脚本所在目录的上级目录）
+        script_path = Path(__file__).resolve()
+        project_root = script_path.parent.parent
+
+        # 如果 config_dir_name 为空，使用项目根目录；否则使用用户主目录
+        if self.system_config["config_dir_name"]:
+            self.config_dir = Path.home() / self.system_config["config_dir_name"]
+        else:
+            self.config_dir = project_root
+
+        self.log_dir = self.config_dir / self.system_config["log_dir_name"]
+        self.config_file = self.config_dir / self.system_config["config_file_name"]
 
     def _init_config_attributes(self):
         """初始化配置属性为默认值"""
@@ -140,20 +149,17 @@ class ConfigManager:
     def _ensure_directories(self):
         """确保配置和日志目录存在"""
         # 确保配置目录存在
-        if not os.path.exists(self.config_dir):
-            try:
-                os.makedirs(self.config_dir)
-                logger.debug(f"已创建配置目录: {self.config_dir}")
-            except Exception as e:
-                logger.error(f"创建配置目录失败: {str(e)}")
+        try:
+            self.config_dir.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            logger.error(f"创建配置目录失败: {str(e)}")
 
         # 确保日志目录存在
-        if not os.path.exists(self.log_dir):
-            try:
-                os.makedirs(self.log_dir)
-                logger.debug(f"已创建日志目录: {self.log_dir}")
-            except Exception as e:
-                logger.error(f"创建日志目录失败: {str(e)}")
+        try:
+            self.log_dir.mkdir(parents=True, exist_ok=True)
+            logger.debug(f"已创建日志目录: {self.log_dir}")
+        except Exception as e:
+            logger.error(f"创建日志目录失败: {str(e)}")
 
     def load_config(self):
         """
@@ -162,12 +168,12 @@ class ConfigManager:
         Returns:
             bool: 是否加载成功
         """
-        if not os.path.exists(self.config_file):
+        if not self.config_file.exists():
             logger.debug("配置文件不存在，将创建默认配置文件")
             return self._create_default_config()
 
         try:
-            with open(self.config_file, "r", encoding="utf-8") as f:
+            with self.config_file.open("r", encoding="utf-8") as f:
                 config_data = yaml.safe_load(f)
 
             if not config_data:
@@ -180,7 +186,6 @@ class ConfigManager:
             # 处理特殊的开机自启逻辑
             self._handle_auto_start_config(config_data)
 
-            logger.debug("配置文件加载成功")
             return True
 
         except Exception as e:
@@ -251,12 +256,11 @@ class ConfigManager:
             bool: 是否创建成功
         """
         try:
-            with open(self.config_file, "w", encoding="utf-8") as f:
+            with self.config_file.open("w", encoding="utf-8") as f:
                 yaml.dump(self.default_config, f, default_flow_style=False, allow_unicode=True)
 
             # 重新初始化配置属性为默认值
             self._init_config_attributes()
-            logger.debug("已创建并加载默认配置")
             return True
         except Exception as e:
             logger.error(f"创建默认配置文件失败: {str(e)}")
@@ -271,10 +275,9 @@ class ConfigManager:
         """
         try:
             config_data = self._build_config_data()
-            with open(self.config_file, "w", encoding="utf-8") as f:
+            with self.config_file.open("w", encoding="utf-8") as f:
                 yaml.dump(config_data, f, default_flow_style=False, allow_unicode=True)
 
-            logger.debug("配置已保存")
             return True
         except Exception as e:
             logger.error(f"保存配置文件失败: {str(e)}")

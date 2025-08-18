@@ -82,18 +82,18 @@ cmd = [
     "--windows-uac-admin",  # 请求管理员权限
     "--remove-output",  # 在重新构建前移除输出目录
     
-    # PyQt6 相关配置
-    "--enable-plugin=pyqt6",  # 启用PyQt6插件
-    "--nofollow-import-to=PyQt6.QtWebEngineWidgets",
-    "--nofollow-import-to=PyQt6.Qt3DCore",
-    "--nofollow-import-to=PyQt6.Qt3DRender",
-    "--nofollow-import-to=PyQt6.QtCharts",
-    "--nofollow-import-to=PyQt6.QtDataVisualization",
-    "--nofollow-import-to=PyQt6.QtMultimedia",
-    "--nofollow-import-to=PyQt6.QtPositioning",
-    "--nofollow-import-to=PyQt6.QtBluetooth",
-    "--nofollow-import-to=PyQt6.QtSerialPort",
-    "--nofollow-import-to=PyQt6.QtLocation",
+    # PyQt5 相关配置
+    "--enable-plugin=pyqt6",  # 启用PyQt5插件
+    "--nofollow-import-to=PyQt5.QtWebEngineWidgets",
+    "--nofollow-import-to=PyQt5.Qt3DCore",
+    "--nofollow-import-to=PyQt5.Qt3DRender",
+    "--nofollow-import-to=PyQt5.QtCharts",
+    "--nofollow-import-to=PyQt5.QtDataVisualization",
+    "--nofollow-import-to=PyQt5.QtMultimedia",
+    "--nofollow-import-to=PyQt5.QtPositioning",
+    "--nofollow-import-to=PyQt5.QtBluetooth",
+    "--nofollow-import-to=PyQt5.QtSerialPort",
+    "--nofollow-import-to=PyQt5.QtLocation",
     # 优化选项
     "--lto=yes",  # 链接时优化
     "--mingw64",  # 使用MinGW64

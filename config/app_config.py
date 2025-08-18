@@ -10,7 +10,7 @@ APP_INFO = {
     "name": "ACE-PyQt",  # 应用名称
     "author": "CassianVale",  # 作者
     "version": "1.0.0",  # 版本号（会被GitHub Actions构建时替换）
-    "description": "PyQt6桌面应用程序框架",  # 应用描述
+    "description": "PyQt5桌面应用程序框架",  # 应用描述
     "github_repo": "Cassianvale/ACE-PyQt",  # GitHub仓库
     "github_api_url": "https://api.github.com/repos/Cassianvale/ACE-PyQt/releases/latest",  # GitHub API URL
     "github_releases_url": "https://github.com/Cassianvale/ACE-PyQt/releases",  # GitHub发布页面URL
@@ -35,7 +35,7 @@ DEFAULT_CONFIG = {
 
 # 系统配置
 SYSTEM_CONFIG = {
-    "config_dir_name": ".ace-pyqt",  # 配置目录名称
+    "config_dir_name": "",  # 配置目录名称（空字符串表示使用项目根目录）
     "log_dir_name": "logs",  # 日志目录名称
     "config_file_name": "config.yaml",  # 配置文件名称
     "network_timeout": 10,  # 网络请求超时时间（秒）

@@ -3,8 +3,8 @@
 
 import os
 from dataclasses import dataclass
-from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout
-from PyQt6.QtCore import (
+from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
+from PyQt5.QtCore import (
     Qt,
     QSize,
     QPropertyAnimation,
@@ -15,7 +15,7 @@ from PyQt6.QtCore import (
     QRectF,
     QTimer,
 )
-from PyQt6.QtGui import QIcon, QPainter, QBrush, QColor, QPen, QPainterPath, QRegion
+from PyQt5.QtGui import QIcon, QPainter, QBrush, QColor, QPen, QPainterPath, QRegion
 from .circle_button import CircleButton
 from ui.styles import AntColors, AntColorsDark, theme_manager
 from utils import logger
@@ -284,15 +284,15 @@ class CustomTitleBar(QWidget):
 
     def mousePressEvent(self, event):
         """鼠标按下事件"""
-        if event.button() == Qt.MouseButton.LeftButton:
-            self._start_pos = event.globalPosition().toPoint() - self.parent_widget.frameGeometry().topLeft()
+        if event.button() == Qt.LeftButton:
+            self._start_pos = event.globalPos() - self.parent_widget.frameGeometry().topLeft()
             self._is_tracking = True
             event.accept()
 
     def mouseMoveEvent(self, event):
         """鼠标移动事件"""
-        if self._is_tracking and event.buttons() == Qt.MouseButton.LeftButton:
-            self.parent_widget.move(event.globalPosition().toPoint() - self._start_pos)
+        if self._is_tracking and event.buttons() == Qt.LeftButton:
+            self.parent_widget.move(event.globalPos() - self._start_pos)
             event.accept()
 
     def mouseReleaseEvent(self, event):

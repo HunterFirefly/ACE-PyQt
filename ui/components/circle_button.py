@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from PyQt6.QtWidgets import QWidget
-from PyQt6.QtCore import Qt, pyqtSignal, QSize
-from PyQt6.QtGui import QPainter, QColor, QPainterPath, QIcon
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import Qt, pyqtSignal, QSize
+from PyQt5.QtGui import QPainter, QColor, QPainterPath, QIcon
 
 
 class CircleButton(QWidget):
@@ -77,7 +77,7 @@ class CircleButton(QWidget):
 
     def mousePressEvent(self, event):
         """鼠标点击事件"""
-        if event.button() == Qt.MouseButton.LeftButton:
+        if event.button() == Qt.LeftButton:
             # 只发出关闭请求信号，让父窗口处理异步关闭
             self.clicked.emit()
             self.close_requested.emit()

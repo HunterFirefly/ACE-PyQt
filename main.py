@@ -77,7 +77,7 @@ def main(custom_app_info=None, custom_default_config=None, custom_system_config=
     # 通知线程
     notification_thread_obj, stop_event = create_notification_thread(queue.Queue(), icon_path)
 
-    # 创建并运行PyQt6图形界面
+    # 创建并运行PyQt5图形界面
     app, window = create_gui(config_manager, icon_path, start_minimized)
 
     app_name = config_manager.get_app_name()
