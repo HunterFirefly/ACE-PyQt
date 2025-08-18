@@ -132,21 +132,17 @@ class CustomTitleBar(QWidget):
             except:
                 pass
 
-        # 绘制圆角窗口背景
         painter = QPainter(self.parent_widget)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
 
         # 获取当前主题颜色
         colors = AntColorsDark if theme_manager.get_current_theme() == "dark" else AntColors
 
-        # 绘制圆角背景
         painter.setBrush(QBrush(QColor(colors.GRAY_1)))
         painter.setPen(QPen(QColor(colors.GRAY_4), 1))
 
-        path = QPainterPath()
         rect = self.parent_widget.rect().adjusted(1, 1, -1, -1)
-        path.addRoundedRect(float(rect.x()), float(rect.y()), float(rect.width()), float(rect.height()), 12.0, 12.0)
-        painter.drawPath(path)
+        painter.drawRect(rect)
 
     def _parent_showEvent(self, event):
         """父窗口的显示事件"""
@@ -160,8 +156,7 @@ class CustomTitleBar(QWidget):
             except:
                 pass
 
-        # 应用圆角遮罩
-        self.apply_rounded_mask()
+
 
     def _parent_resizeEvent(self, event):
         """父窗口的大小改变事件"""
@@ -175,26 +170,9 @@ class CustomTitleBar(QWidget):
             except:
                 pass
 
-        # 延迟应用遮罩以确保窗口完全调整大小后再应用
-        QTimer.singleShot(10, self.apply_rounded_mask)
 
-    def apply_rounded_mask(self):
-        """应用圆角遮罩到父窗口"""
-        if not self.parent_widget:
-            return
 
-        try:
-            # 创建圆角路径
-            path = QPainterPath()
-            rect = self.parent_widget.rect()
-            path.addRoundedRect(float(rect.x()), float(rect.y()), float(rect.width()), float(rect.height()), 12.0, 12.0)
 
-            # 应用遮罩
-            region = QRegion(path.toFillPolygon().toPolygon())
-            self.parent_widget.setMask(region)
-
-        except Exception as e:
-            logger.error(f"应用圆角遮罩失败: {str(e)}")
 
     def update_parent_window(self):
         """更新父窗口显示（主题切换时调用）"""

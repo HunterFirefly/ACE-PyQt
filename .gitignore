@@ -11,7 +11,7 @@ main.build/
 main.dist/
 main.onefile-build/
 *report.xml
-.yaml
+*.yaml
 logs/
 
 # AI Toolset

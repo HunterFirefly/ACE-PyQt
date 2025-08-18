@@ -185,8 +185,6 @@ class ThemeManager(QObject):
         CustomTitleBar {{
             background-color: {colors.GRAY_1};
             border: none;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
             border-bottom: 1px solid {colors.GRAY_4};
         }}
         
